@@ -23,13 +23,22 @@ test.describe('Letcode main page', () => {
             const labelVisible = await navbar.isLabelVisible(label);
             expect(labelVisible).toBe(true);
         }
+        await expect(navbar.image).toBeVisible();
+        await expect(navbar.icon).toBeVisible();
     });
+
+    test('Button started with the text "NEW" is visible', async ({ page}) => {
+        await expect(page.getByRole('link', { name: 'NEW! Playwright Quiz' })).toBeVisible();
+    })
+
+    test('Button started with the text "Buy" is visible', async ({ page }) => {
+        await expect(page.getByRole('link', { name: 'Buy me a Pizza' })).toBeVisible();
+    })
 
     test('Section contains all expected cards', async ({ page }) => {
         for (const card of section.cards) {
             const cardVisible = await section.isCardVisible(card);
             expect(cardVisible).toBe(true);
-            await page.pause();
         }
     });
 })

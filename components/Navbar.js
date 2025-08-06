@@ -4,6 +4,8 @@ class Navbar {
 
         this.navbarStart = page.locator('.navbar-start');
         this.labels = ['Work-Space', 'Products', 'Grooming', 'Courses', 'Contact'];
+        this.image = page.locator('[alt="letcode"]');
+        this.icon = page.locator('#theme-icon');
     }
 
     async isLabelVisible(label) {
