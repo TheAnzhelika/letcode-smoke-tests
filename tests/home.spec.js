@@ -27,12 +27,18 @@ test.describe('Letcode main page', () => {
         await expect(navbar.icon).toBeVisible();
     });
 
-    test('Button started with the text "NEW" is visible', async ({ page}) => {
-        await expect(page.getByRole('link', { name: 'NEW! Playwright Quiz' })).toBeVisible();
+    test('Button started with the text "NEW" is visible and redirects to a new page', async ({ page}) => {
+        const buttonNew = page.getByRole('link', { name: 'NEW! Playwright Quiz' });
+        await expect(buttonNew).toBeVisible();
+        await buttonNew.click();
+        await expect(page).toHaveURL('https://letcode.in/pw-quiz');
     })
 
-    test('Button started with the text "Buy" is visible', async ({ page }) => {
-        await expect(page.getByRole('link', { name: 'Buy me a Pizza' })).toBeVisible();
+    test('Button started with the text "Buy" is visible and redirects to a new page', async ({ page }) => {
+        const buttonBuy = page.getByRole('link', { name: 'Buy me a Pizza' });
+        await expect(buttonBuy).toBeVisible();
+        await buttonBuy.click();
+        await expect(page).toHaveURL('https://buymeacoffee.com/letcode');
     })
 
     test('Section contains all expected cards', async ({ page }) => {
