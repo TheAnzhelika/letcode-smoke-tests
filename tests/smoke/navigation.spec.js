@@ -70,6 +70,6 @@ test.describe('Navigation Bar Smoke Tests', () => {
             await homePage.open();
         }
     });
-
+    
 });
     
