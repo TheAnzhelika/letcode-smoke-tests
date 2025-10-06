@@ -1,14 +1,18 @@
 class WorkspacePage {
-    static url = 'https://letcode.in/test';
-    static title = 'Workspace | LetCode with Koushik';
+    static expected = {
+        key: 'test',
+        url: 'https://letcode.in/test',
+        title: 'Workspace | LetCode with Koushik',
+        navText: 'Work-Space',
+        buttonText: 'Explore Workspace',
+    };
 
     constructor(page) {
         this.page = page;
-
     }
 
     async open() {
-        await this.page.goto(WorkspacePage.url);
+        await this.page.goto(WorkspacePage.expected.url);
     }
 }
 
