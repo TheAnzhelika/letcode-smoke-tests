@@ -1,8 +1,8 @@
-import { expect, test } from "playwright/test";
-import NavigationPage from "../../pages/navigationPage";
-import HomePage from "../../pages/homePage";
-import ProductsPage from "../../pages/productsPage";
-import GroomingPage from "../../pages/groomingPage";
+import { expect, test } from 'playwright/test';
+import NavigationPage from '../../pages/navigationPage';
+import HomePage from '../../pages/homePage';
+import ProductsPage from '../../pages/productsPage';
+import GroomingPage from '../../pages/groomingPage';
 
 test.describe('Navigation Bar Smoke Tests', () => {
     let navigationPage;
@@ -15,28 +15,25 @@ test.describe('Navigation Bar Smoke Tests', () => {
         homePage = new HomePage(page);
         productsPage = new ProductsPage(page);
         groomingPage = new GroomingPage(page);
-
         await homePage.open();
     });
 
-    test('Verify NavbarStart contains all expected items', async ({ page }) => {
+    test('Verify NavbarStart contains all expected items', async () => {
         for (const item of Object.keys(navigationPage.menuSelector)) {
             const isVisible = await navigationPage.isMenuItemVisible(item);
             expect(isVisible).toBeTruthy();
         }
         await expect(navigationPage.image).toBeVisible();
-        await expect(navigationPage.icon).toBeVisible();
+        await expect(navigationPage.themeIcon).toBeVisible();
     });
 
     test('Verify Navigation menus without dropdowns have exact URL & Title', async ({ page }) => {
         for (const menuName of Object.keys(navigationPage.menuSelector)) {
             if (menuName === 'Products' || menuName === 'Grooming') continue; // handled separately
-    
             await navigationPage.clickMenu(menuName);
-            const expected = navigationPage.expectedData[menuName];
+            const [expected] = navigationPage.expectedData[menuName];
             await expect(page).toHaveURL(expected.url);
             await expect(page).toHaveTitle(expected.title);
-    
             await homePage.open();
         }
     });
@@ -46,14 +43,12 @@ test.describe('Navigation Bar Smoke Tests', () => {
         for (let i = 0; i < expectedItems.length; i++) {
             const expected = expectedItems[i];
             await productsPage.productsNav.hover();
-            await expect(productsPage.dropdownItems.nth(i)).toHaveText(expected.name);
-
+            await expect(productsPage.dropdownItems.nth(i)).toHaveText(expected.navText);
             await productsPage.clickdropdownItem(i);
             await expect(page).toHaveURL(expected.url);
             await expect(page).toHaveTitle(expected.title);
-
             await homePage.open();
-        };
+        }
     });
 
     test('Verify Grooming dropdown exact URL & Title', async ({ page }) => {
@@ -61,15 +56,29 @@ test.describe('Navigation Bar Smoke Tests', () => {
         for (let i = 0; i < expectedItems.length; i++) {
             const expected = expectedItems[i];
             await groomingPage.groomingNav.hover();
-            await expect(groomingPage.dropdownItems.nth(i)).toHaveText(expected.name);
-
+            await expect(groomingPage.dropdownItems.nth(i)).toHaveText(expected.navText);
             await groomingPage.clickDropdownItem(i);
             await expect(page).toHaveURL(expected.url);
             await expect(page).toHaveTitle(expected.title);
-
             await homePage.open();
         }
     });
-    
+
+    test('Click on image navigates to home page', async ({ page }) => {
+        await productsPage.clickdropdownItem(0);
+        await expect(page).toHaveURL(ProductsPage.expected[0].url);
+        await navigationPage.image.click();
+        await expect(page).toHaveURL(HomePage.expected.url);
+    });
+
+    test('Click on icon changes the theme status', async () => {
+        await expect(navigationPage.themeToggleButton).toHaveAttribute(
+            'data-theme-status',
+            'light'
+        );
+        await expect(navigationPage.themeIcon).toHaveAttribute('class', 'fa fa-sun');
+        await navigationPage.themeToggleButton.click();
+        await expect(navigationPage.themeToggleButton).toHaveAttribute('data-theme-status', 'dark');
+        await expect(navigationPage.themeIcon).toHaveAttribute('class', 'fa fa-moon');
+    });
 });
-    

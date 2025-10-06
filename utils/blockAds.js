@@ -7,10 +7,10 @@ const DEFAULT_BLOCK_HOSTS = [
     'googletagmanager.com',
     'google-analytics.com',
 ];
-    
+
 async function blockAds(context, extraHosts = []) {
     const blockHosts = new Set([...DEFAULT_BLOCK_HOSTS, ...extraHosts]);
-    await context.route('**/*', route => {
+    await context.route('**/*', (route) => {
         try {
             const { hostname } = new URL(route.request().url());
             for (const h of blockHosts) {
@@ -18,7 +18,9 @@ async function blockAds(context, extraHosts = []) {
                     return route.abort();
                 }
             }
-        } catch { /* ignore invalid URLs */ }
+        } catch {
+            /* ignore invalid URLs */
+        }
         return route.continue();
     });
 }

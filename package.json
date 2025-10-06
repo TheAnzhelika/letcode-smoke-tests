@@ -1,23 +1,29 @@
 {
-  "name": "letcode-smoke-tests",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {},
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@playwright/test": "^1.54.2",
-    "@types/node": "^24.2.0"
-  },
-  "directories": {
-    "test": "tests"
-  },
-  "dependencies": {
-    "fsevents": "^2.3.2",
-    "playwright": "^1.54.2",
-    "playwright-core": "^1.54.2",
-    "undici-types": "^7.10.0"
-  },
-  "keywords": []
+    "name": "letcode-smoke-tests",
+    "version": "1.0.0",
+    "description": "Basic smoke tests of Letcode",
+    "main": "index.js",
+    "scripts": {
+        "format": "prettier --write .",
+        "postinstall": "npx playwright install chromium"
+    },
+    "author": "Anzhelika Surab",
+    "license": "ISC",
+    "devDependencies": {
+        "@eslint/js": "^9.34.0",
+        "@playwright/test": "^1.54.2",
+        "@types/node": "^24.2.0",
+        "eslint": "^9.34.0",
+        "eslint-plugin-react": "^7.37.5",
+        "globals": "^16.3.0",
+        "prettier": "^3.6.2"
+    },
+    "directories": {
+        "test": "tests"
+    },
+    "dependencies": {
+        "playwright": "^1.54.2",
+        "playwright-core": "^1.54.2"
+    },
+    "keywords": []
 }

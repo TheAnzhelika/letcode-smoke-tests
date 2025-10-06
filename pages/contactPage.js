@@ -1,14 +1,17 @@
 class ContactPage {
-    static url = 'https://letcode.in/contact';
-    static title = 'Contact | LetCode with Koushik';
+    static expected = {
+        key: 'courses',
+        url: 'https://letcode.in/contact',
+        title: 'Contact | LetCode with Koushik',
+        navText: 'Contact',
+    };
 
     constructor(page) {
         this.page = page;
-
     }
 
     async open() {
-        await this.page.goto(ContactPage.url);
+        await this.page.goto(ContactPage.expected.url);
     }
 }
 
